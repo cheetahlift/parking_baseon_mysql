@@ -1,0 +1,130 @@
+/*CREATE DATABASE parking DEFAULT CHARACTER SET GBK;
+USE parking;*/
+
+/*创建表*/
+CREATE TABLE Car(
+ listnum smallint NOT NULL,
+ carNumber varchar(6) NOT NULL, /*车牌号*/
+ carName varchar(10) NOT NULL, /*车名字*/
+ carType varchar(10) NOT NULL /*车类型*/
+ );
+ 
+CREATE TABLE People(
+ carNumber varchar(6) NOT NULL,
+ name varchar(10) NOT NULL,  /*车主*/
+ address varchar(10) ,   /*地址*/
+ tel varchar(20)    /*电话*/
+ );
+ 
+ CREATE TABLE Url(
+ carName varchar(10),
+ link_R varchar(1000),
+ link_P varchar(1000)
+ );
+ 
+ 
+/*存储过程*/
+/*查询详细资料*/
+delimiter //
+CREATE procedure select_all(in CarNum VARCHAR(6))
+ begin
+ select Car.carNumber,Car.carName,Car.carType,People.name,People.address,People.tel
+ from Car,People
+ where Car.carNumber = CarNum AND Car.carNumber = People.carNumber;
+ end //
+delimiter ;
+
+/*查询基本资料*/
+delimiter //
+CREATE procedure select_basic(in CarNum VARCHAR(6))
+ begin
+ select Car.carNumber,People.name
+ from Car,People
+ where Car.carNumber = CarNum AND Car.carNumber = People.carNumber;
+ end //
+delimiter ;
+
+/*车辆随机*/
+delimiter //
+CREATE procedure randomCar()
+ begin
+ declare x smallint;
+ set x =  (select floor(1+rand()*23));
+ select carNumber from Car 
+ where
+ listnum = x;
+end //
+delimiter ;
+
+/*获取车辆图片url*/
+delimiter //
+CREATE procedure select_car_url(in CarName VARCHAR(10))
+ begin
+ select Url.link_R,Url.link_P
+ from Url
+ where Url.carName = CarName;
+end //
+delimiter ;
+
+ 
+ 
+ 
+ /*Car*/
+INSERT INTO CAR VALUES(1 ,'YFGBP ','夏利 ','轿车 ');			
+INSERT INTO CAR VALUES(2 ,'QGWQ9 ','夏利 ','轿车 ');			
+INSERT INTO CAR VALUES(3 ,'GR27X ','夏利 ','轿车 ');			
+INSERT INTO CAR VALUES(4 ,'Y8QH3 ','QQ ','轿车 ');			
+INSERT INTO CAR VALUES(5 ,'CRH2P ','QQ ','轿车 ');			
+INSERT INTO CAR VALUES(6 ,'VP3FM ','奔驰 ','轿车 ');			
+INSERT INTO CAR VALUES(7 ,'BVH24 ','奔驰 ','轿车 ');			
+INSERT INTO CAR VALUES(8 ,'FCGFR ','奔驰 ','跑车 ');			
+INSERT INTO CAR VALUES(9 ,'9VYKQ ','奔驰 ','跑车 ');			
+INSERT INTO CAR VALUES(10 ,'VM9TB ','三菱 ','货车 ');			
+INSERT INTO CAR VALUES(11 ,'XX2C7 ','三菱 ','货车 ');			
+INSERT INTO CAR VALUES(12 ,'4M3C4 ','三菱 ','货车 ');			
+INSERT INTO CAR VALUES(13 ,'G834Y ','玛莎拉蒂 ','跑车 ');			
+INSERT INTO CAR VALUES(14 ,'87MGT ','玛莎拉蒂 ','跑车 ');			
+INSERT INTO CAR VALUES(15 ,'98CDK ','玛莎拉蒂 ','跑车 ');			
+INSERT INTO CAR VALUES(16 ,'3P6YJ ','玛莎拉蒂 ','跑车 ');			
+INSERT INTO CAR VALUES(17 ,'Q2H7C ','奥迪 ','跑车 ');			
+INSERT INTO CAR VALUES(18 ,'HKJP4 ','奥迪 ','跑车 ');			
+INSERT INTO CAR VALUES(19 ,'CT369 ','奥迪 ','轿车 ');			
+INSERT INTO CAR VALUES(20 ,'WJK6G ','奥迪 ','轿车 ');			
+INSERT INTO CAR VALUES(21 ,'J2VRG ','本田 ','轿车 ');			
+INSERT INTO CAR VALUES(22 ,'V6MGY ','本田 ','轿车 ');			
+INSERT INTO CAR VALUES(23 ,'6G6WG ','本田 ','货车 ');			
+
+
+/*People*/
+INSERT INTO People VALUES('YFGBP ','王先生 ','1栋302房 ','136XXXX5617 ');
+INSERT INTO People VALUES('QGWQ9 ','李先生 ','2栋403房 ','170XXXX9051 ');
+INSERT INTO People VALUES('GR27X ','刘先生 ','4栋511房 ','137XXXX7747 ');
+INSERT INTO People VALUES('Y8QH3 ','金先生 ','7栋901房 ','153XXXX5252 ');
+INSERT INTO People VALUES('CRH2P ','李先生 ','11栋102房 ','126XXXX6033 ');
+INSERT INTO People VALUES('VP3FM ','陈先生 ','5栋204房 ','177XXXX7044 ');
+INSERT INTO People VALUES('BVH24 ','赵先生 ','6栋505房 ','139XXXX1088 ');
+INSERT INTO People VALUES('FCGFR ','陈先生 ','7栋604房 ','136XXXX8011 ');
+INSERT INTO People VALUES('9VYKQ ','林先生 ','1栋405房 ','170XXXX8146 ');
+INSERT INTO People VALUES('VM9TB ','罗先生 ','2栋706房 ','137XXXX5617 ');
+INSERT INTO People VALUES('XX2C7 ','黄先生 ','4栋711房 ','153XXXX9051 ');
+INSERT INTO People VALUES('4M3C4 ','红先生 ','7栋802房 ','126XXXX7747 ');
+INSERT INTO People VALUES('G834Y ','马先生 ','11栋502房 ','177XXXX5252 ');
+INSERT INTO People VALUES('87MGT ','刘女士 ','5栋301房 ','139XXXX6033 ');
+INSERT INTO People VALUES('98CDK ','成女士 ','6栋303房 ','136XXXX7044 ');
+INSERT INTO People VALUES('3P6YJ ','洪女士 ','7栋311房 ','170XXXX1088 ');
+INSERT INTO People VALUES('Q2H7C ','叶女士 ','1栋801房 ','137XXXX8011 ');
+INSERT INTO People VALUES('HKJP4 ','李女士 ','2栋901房 ','153XXXX8146 ');
+INSERT INTO People VALUES('CT369 ','林女士 ','4栋911房 ','126XXXX5617 ');
+INSERT INTO People VALUES('WJK6G ','程女士 ','7栋103房 ','177XXXX9051 ');
+INSERT INTO People VALUES('J2VRG ','郝女士 ','11栋107房 ','139XXXX7747 ');
+INSERT INTO People VALUES('V6MGY ','王女士 ','5栋207房 ','136XXXX5252 ');
+INSERT INTO People VALUES('6G6WG ','何女士 ','8栋707房 ','170XXXX6033 ');
+
+INSERT INTO Url VALUES('夏利 ','I:\\java\\javapro\\bigpro\\img\\xiali_R.png ','I:\\java\\javapro\\bigpro\\img\\xiali_P.png ');
+INSERT INTO Url VALUES('奔驰 ','I:\\java\\javapro\\bigpro\\img\\benzi_R.png ','I:\\java\\javapro\\bigpro\\img\\benzi_P.png ');
+INSERT INTO Url VALUES('QQ ','I:\\java\\javapro\\bigpro\\img\\QQ_R.png ','I:\\java\\javapro\\bigpro\\img\\QQ_P.png ');
+INSERT INTO Url VALUES('三菱 ','I:\\java\\javapro\\bigpro\\img\\mis_R.png ','I:\\java\\javapro\\bigpro\\img\\mis_P.png ');
+INSERT INTO Url VALUES('玛莎拉蒂 ','I:\\java\\javapro\\bigpro\\img\\mas_R.png ','I:\\java\\javapro\\bigpro\\img\\mas_P.png ');
+INSERT INTO Url VALUES('奥迪 ','I:\\java\\javapro\\bigpro\\img\\audi_R.png ','I:\\java\\javapro\\bigpro\\img\\audi_P.png ');
+INSERT INTO Url VALUES('本田 ','I:\\java\\javapro\\bigpro\\img\\bt_R.png ','I:\\java\\javapro\\bigpro\\img\\bt_P.png ');
+
